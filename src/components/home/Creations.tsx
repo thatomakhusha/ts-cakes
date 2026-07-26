@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 
 const cakeImages = [
-    "/images/cakes/birthday-cake-4.jpeg",
+    "/images/cakes/birthday-cake-1.jpeg",
     "/images/cakes/wedding-cake-2.jpeg",
     "/images/cakes/birthday-cake-2.jpeg",
     "/images/cakes/graduation-cake-2.jpeg",
