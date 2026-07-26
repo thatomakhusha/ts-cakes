@@ -19,9 +19,8 @@ const cakeImages = [
 ];
 
 const cupcakeImages = [
-    "/images/cupcakes/cupcake-1.jpeg",
-    "/images/cupcakes/cupcake-2.jpeg",
-    "/images/cupcakes/cupcake-3.jpeg",
+    "/images/cakes/cupcakes-1.jpeg",
+    "/images/cakes/cupcakes-2.jpeg",
 ];
 
 
