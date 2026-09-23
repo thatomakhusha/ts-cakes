@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 
 const cakeImages = [
+    "/images/cakes/wedding-cake-3.jpeg",
     "/images/cakes/birthday-cake-1.jpeg",
     "/images/cakes/wedding-cake-2.jpeg",
     "/images/cakes/birthday-cake-2.jpeg",
@@ -19,8 +20,13 @@ const cakeImages = [
 ];
 
 const cupcakeImages = [
+    "/images/cakes/cupcakes-3.jpeg",
     "/images/cakes/cupcakes-1.jpeg",
     "/images/cakes/cupcakes-2.jpeg",
+    "/images/cakes/cupcakes-4.jpeg",
+    "/images/cakes/cupcakes-5.jpeg",
+    "/images/cakes/cupcakes-6.jpeg",
+    "/images/cakes/cupcakes-7.jpeg",
 ];
 
 

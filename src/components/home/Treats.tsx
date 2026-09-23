@@ -24,37 +24,19 @@ const treatCategories = [
 const treats = {
     scones: [
         {
-            name: "Plain Scones",
-            description: "Classic, buttery, and freshly baked.",
-            image: "/images/treats/plain-scones.jpeg",
-        },
-        {
-            name: "Custard Scones",
-            description: "Soft scones filled with custard.",
-            image: "/images/treats/custard-scones.jpeg",
-        },
-        {
-            name: "Coconut Scones",
-            description: "Lightly sweetened with coconut.",
-            image: "/images/treats/coconut-scones.jpeg",
-        },
-        {
-            name: "Blueberry Scones",
-            description: "Packed with fresh blueberries.",
-            image: "/images/treats/blueberry-scones.jpeg",
+            name: "Freshly Baked Scones",
+            description:
+                "Available in plain, custard, coconut, and blueberry.",
+            image: "/images/treats/scones.jpeg",
         },
     ],
 
     "biscuits-tarts": [
         {
-            name: "Mixed Biscuits",
-            description: "A variety of freshly baked biscuits.",
+            name: "Biscuits & Tarts",
+            description:
+                "Freshly baked mixed biscuits and delicious jam-filled tarts.",
             image: "/images/treats/mixed-biscuits.jpeg",
-        },
-        {
-            name: "Jam Tarts",
-            description: "Sweet pastry filled with jam.",
-            image: "/images/treats/jam-tarts.jpeg",
         },
     ],
 
@@ -70,7 +52,7 @@ const treats = {
         {
             name: "Muffin Box",
             description: "A delicious selection of freshly baked muffins.",
-            image: "/images/treats/muffin-box.jpeg",
+            image: "/images/treats/muffins.jpeg",
         },
     ],
 };

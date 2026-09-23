@@ -125,7 +125,7 @@ const Footer = () => {
                 </p>
 
                 <p>
-                    Built by Makhusha Technologies
+                    Built by Thato Makhusha
                 </p>
             </div>
 
