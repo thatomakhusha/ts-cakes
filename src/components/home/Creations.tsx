@@ -17,6 +17,11 @@ const cakeImages = [
     "/images/cakes/Church-cake.jpeg",
     "/images/cakes/birthday-cake-7.jpeg",
     "/images/cakes/birthday-cake-8.jpeg",
+    "/images/cakes/wedding-cake-4.jpeg",
+    "/images/cakes/birthday-cake-9.jpeg",
+    "/images/cakes/birthday-cake-10.jpeg",
+    "/images/cakes/Home-owner-cake.jpeg",
+    "/images/cakes/birthday-cake-11.jpeg",
 ];
 
 const cupcakeImages = [
