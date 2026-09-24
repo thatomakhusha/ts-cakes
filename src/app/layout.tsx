@@ -19,9 +19,17 @@ const patrickHand = Patrick_Hand({
 });
 
 export const metadata: Metadata = {
-    title: "T's Cakes | Custom Cakes & Handmade Treats",
+  title: "Ts Cakes | Tshwari Modise | Custom Cakes & Bakery in Pretoria",
+  description:
+    "Ts Cakes by Tshwari Modise, also known as Tshwaraganang, creates custom cakes, cupcakes and handmade treats in Pretoria.",
+  openGraph: {
+    title: "Ts Cakes | Tshwari Modise | Custom Cakes & Bakery in Pretoria",
     description:
-        "Custom cakes, cupcakes and freshly baked treats made with love in Pretoria.",
+      "Custom cakes, cupcakes and handmade treats by Tshwari Modise, also known as Tshwaraganang, in Pretoria.",
+    url: "https://tscakes.co.za",
+    siteName: "Ts Cakes",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

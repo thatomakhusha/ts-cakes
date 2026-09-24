@@ -10,7 +10,7 @@ const About = () => {
                 <div className="relative mx-auto aspect-4/5 w-full max-w-87.5 overflow-hidden rounded-2xl md:mx-0">
                     <Image
                         src="/images/logo/Bakers Website logo-.png"
-                        alt="T's Cakes baker"
+                        alt="Tshwari Modise, baker behind Ts Cakes in Pretoria"
                         fill
                         className="object-cover"
                     />
@@ -29,11 +29,11 @@ const About = () => {
                     </h2>
 
                     <p className="text-[0.95rem] leading-[1.8] text-burgundy-soft">
-                        Hi, I'm Tshwari — the baker behind T's Cakes. Based in Pretoria, I specialise in custom cakes and freshly baked treats for every occasion. Every order is made from scratch with the finest ingredients and a whole lot of love.
+                        Hi, I'm Tshwari Modise — also known as Tshwaraganang — and I'm the baker behind Ts Cakes. Based in Pretoria, I specialise in custom cakes, cupcakes and freshly baked treats for every occasion. Every order is made from scratch with the finest ingredients and a whole lot of love.
                     </p>
 
                     <p className="text-[0.95rem] leading-[1.8] text-burgundy-soft">
-                        Whether it's a birthday cake, a wedding masterpiece or a box of scones — I put the same care and attention into every single order.
+                        Whether it's a birthday cake, a wedding masterpiece or a box of scones, I put the same care and attention into every single order. From Ts Cakes Bakery in Pretoria, every creation is made to bring something special to your celebration.
                     </p>
 
                     <Button href="/order">
