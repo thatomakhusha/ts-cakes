@@ -2,6 +2,7 @@
 
 @theme {
   --color-cream: #f5e6d3;
+  --color-cream-lighter: #f9f2e9;
   --color-burgundy: #ad3246;
   --color-burgundy-muted: rgba(173, 50, 70, 0.6);
   --color-burgundy-soft: rgba(173, 50, 70, 0.7);
