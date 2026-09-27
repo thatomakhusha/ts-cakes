@@ -114,8 +114,8 @@ const Footer = () => {
 
                     <p className="text-sm text-cream/70">
                         Pretoria, South Africa
-                    {/* </p>
-                    <Link 
+                    </p>
+                    {/* <Link 
                         href="/login"
                         className="text-sm text-cream/70 transition-colors duration-200 hover:text-cream"
                     >
