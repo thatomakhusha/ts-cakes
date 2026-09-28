@@ -1,15 +1,44 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+
+type Review = {
+    id: number;
+    name: string;
+    date: string;
+    category: string;
+    review: string;
+    rating: number;
+};
 
 const Reviews = () => {
     const supabase = createClient();
 
+    const [reviews, setReviews] = useState<Review[]>([]);
     const [submitted, setSubmitted] = useState(false);
     const [error, setError] = useState("");
     const [rating, setRating] = useState(0);
     const [hoverRating, setHoverRating] = useState(0);
+
+    useEffect(() => {
+        async function loadReviews() {
+            const { data, error } = await supabase
+                .from("reviews")
+                .select("id, name, date, category, review, rating")
+                .eq("status", "approved")
+                .order("created_at", { ascending: false });
+
+            if (error) {
+                console.error("Failed to load reviews:", error);
+                return;
+            }
+
+            setReviews(data ?? []);
+        }
+
+        loadReviews();
+    }, [supabase]);
 
     async function submitReview(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -23,7 +52,7 @@ const Reviews = () => {
         const category = formData.get("category")?.toString();
         const review = formData.get("review")?.toString().trim();
 
-       if (!name || !category || !rating || !review) {
+        if (!name || !category || !rating || !review) {
             setError("Please complete all fields, including your rating.");
             return;
         }
@@ -71,11 +100,42 @@ const Reviews = () => {
                 </div>
 
                 {/* Approved reviews */}
-                <div className="mt-12">
-                    <p className="text-sm text-burgundy/50">
-                        No reviews yet.
-                    </p>
+                <div className="mt-10 grid gap-5 md:grid-cols-3">
+                    {reviews.slice(0, 3).map((review) => (
+                        <article
+                            key={review.id}
+                            className="rounded-3xl border border-burgundy/12 bg-white/40 p-7"
+                        >
+                            {/* Rating */}
+                            <div
+                                className="text-lg tracking-wide text-burgundy"
+                                aria-label={`${review.rating} out of 5 stars`}
+                            >
+                                {"★".repeat(review.rating)}
+                                <span className="text-burgundy/20">
+                                    {"★".repeat(5 - review.rating)}
+                                </span>
+                            </div>
+
+                            {/* Review */}
+                            <p className="mt-5 font-display text-xl leading-relaxed text-burgundy">
+                                &ldquo;{review.review}&rdquo;
+                            </p>
+
+                            {/* Customer */}
+                            <div className="mt-6 border-t border-burgundy/10 pt-4">
+                                <p className="font-bold text-burgundy">
+                                    {review.name}
+                                </p>
+
+                                <p className="mt-1 text-xs uppercase tracking-wider text-burgundy/50">
+                                    {review.category}
+                                </p>
+                            </div>
+                        </article>
+                    ))}
                 </div>
+
 
                 {/* Review submission */}
                 <div className="mx-auto mt-14 max-w-2xl rounded-3xl bg-burgundy p-7 text-cream sm:p-10">
