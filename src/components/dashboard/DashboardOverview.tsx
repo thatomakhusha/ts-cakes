@@ -2,64 +2,20 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 import ReviewStats from "./ReviewStats";
 import ReviewsSection from "./ReviewSection";
 import { Review, ReviewStatus } from "./types";
 
-const initialReviews: Review[] = [
-    {
-        id: 1,
-        name: "Naledi M.",
-        date: "18 May 2026",
-        category: "Birthday cake",
-        review:
-            "The cake was even more beautiful than I imagined and tasted absolutely incredible. Every detail was perfect.",
-        rating: 5,
-        status: "approved",
-    },
-    {
-        id: 2,
-        name: "Lerato K.",
-        date: "12 May 2026",
-        category: "Wedding cake",
-        review:
-            "The cake looked beautiful and tasted amazing. Everyone at the wedding loved it.",
-        rating: 5,
-        status: "approved",
-    },
-    {
-        id: 3,
-        name: "Boitumelo R.",
-        date: "5 May 2026",
-        category: "Custom cake",
-        review:
-            "Everything from the design to the taste was perfect. I would definitely order again.",
-        rating: 5,
-        status: "approved",
-    },
-    {
-        id: 4,
-        name: "Karabo M.",
-        date: "2 May 2026",
-        category: "Birthday cake",
-        review:
-            "The cake was delicious and looked exactly like the design I requested.",
-        rating: 5,
-        status: "pending",
-    },
-    {
-        id: 5,
-        name: "Mpho T.",
-        date: "28 April 2026",
-        category: "Cupcakes",
-        review:
-            "The cupcakes were fresh, beautiful and everyone at the party enjoyed them.",
-        rating: 5,
-        status: "pending",
-    },
-];
+type DashboardOverviewProps = {
+    initialReviews: Review[];
+};
 
-const DashboardOverview = () => {
+const DashboardOverview = ({
+    initialReviews,
+}: DashboardOverviewProps) => {
+    const supabase = createClient();
+
     const [reviews, setReviews] = useState<Review[]>(initialReviews);
     const [filter, setFilter] = useState<ReviewStatus | "all">("pending");
 
@@ -77,7 +33,17 @@ const DashboardOverview = () => {
             ? reviews
             : reviews.filter((review) => review.status === filter);
 
-    function updateStatus(id: number, status: ReviewStatus) {
+    async function updateStatus(id: number, status: ReviewStatus) {
+        const { error } = await supabase
+            .from("reviews")
+            .update({ status })
+            .eq("id", id);
+
+        if (error) {
+            console.error("Failed to update review status:", error);
+            return;
+        }
+
         setReviews((current) =>
             current.map((review) =>
                 review.id === id

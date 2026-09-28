@@ -8,6 +8,7 @@ import Treats from "@/components/home/Treats";
 import PriceCTA from "@/components/home/PriceCTA";
 import About from "@/components/home/AboutSection";
 import QuoteCTA from "@/components/home/QuoteCTA";
+import Reviews from "@/components/home/Reviews";
 import Footer from "@/components/layout/Footer";
 
 export default function Home() {
@@ -30,7 +31,7 @@ export default function Home() {
           <About/>
           <QuoteCTA/>
         </Container>
-
+        <Reviews />
         <Footer/>
       </main>
     </>
