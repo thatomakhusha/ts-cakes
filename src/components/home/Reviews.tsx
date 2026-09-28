@@ -1,12 +1,53 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 
 const Reviews = () => {
-    const [submitted, setSubmitted] = useState(false);
+    const supabase = createClient();
 
-    function submitReview(event: FormEvent<HTMLFormElement>) {
+    const [submitted, setSubmitted] = useState(false);
+    const [error, setError] = useState("");
+    const [rating, setRating] = useState(0);
+    const [hoverRating, setHoverRating] = useState(0);
+
+    async function submitReview(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
+
+        setError("");
+
+        const form = event.currentTarget;
+        const formData = new FormData(form);
+
+        const name = formData.get("name")?.toString().trim();
+        const category = formData.get("category")?.toString();
+        const review = formData.get("review")?.toString().trim();
+
+       if (!name || !category || !rating || !review) {
+            setError("Please complete all fields, including your rating.");
+            return;
+        }
+
+        const { error } = await supabase
+            .from("reviews")
+            .insert({
+                name,
+                date: new Date().toLocaleDateString("en-GB", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                }),
+                category,
+                review,
+                rating,
+                status: "pending",
+            });
+
+        if (error) {
+            console.error("Failed to submit review:", error);
+            setError("Something went wrong. Please try again.");
+            return;
+        }
 
         setSubmitted(true);
     }
@@ -45,6 +86,12 @@ const Reviews = () => {
                     <p className="mt-2 text-sm text-cream/70">
                         Your review will appear after a quick approval from our team.
                     </p>
+
+                    {error && (
+                        <p className="mt-4 text-sm text-red-200">
+                            {error}
+                        </p>
+                    )}
 
                     {submitted ? (
                         <div className="mt-6 rounded-2xl bg-cream/10 p-5">
@@ -130,25 +177,44 @@ const Reviews = () => {
                             </label>
 
                             {/* Rating */}
-                            <label className="grid gap-2 text-sm font-semibold">
-                                Rating
+                            <div className="grid gap-2 text-sm font-semibold">
+                                <span>Rating</span>
 
-                                <select
-                                    name="rating"
-                                    defaultValue="5"
-                                    className="rounded-xl border border-cream/20 bg-cream/10 px-4 py-3 font-normal outline-none"
+                                <div
+                                    className="flex items-center gap-1"
+                                    onMouseLeave={() => setHoverRating(0)}
                                 >
-                                    {[5, 4, 3, 2, 1].map((rating) => (
-                                        <option
-                                            value={rating}
-                                            key={rating}
-                                            className="text-burgundy"
-                                        >
-                                            {rating} stars
-                                        </option>
-                                    ))}
-                                </select>
-                            </label>
+                                    {[1, 2, 3, 4, 5].map((star) => {
+                                        const activeRating =
+                                            hoverRating || rating;
+
+                                        return (
+                                            <button
+                                                key={star}
+                                                type="button"
+                                                onClick={() => setRating(star)}
+                                                onMouseEnter={() =>
+                                                    setHoverRating(star)
+                                                }
+                                                aria-label={`${star} star${
+                                                    star === 1 ? "" : "s"
+                                                }`}
+                                                className="text-3xl leading-none transition-transform hover:scale-110"
+                                            >
+                                                <span
+                                                    className={
+                                                        star <= activeRating
+                                                            ? "text-cream"
+                                                            : "text-cream/30"
+                                                    }
+                                                >
+                                                    ★
+                                                </span>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
 
                             {/* Review */}
                             <label className="grid gap-2 text-sm font-semibold sm:col-span-2">
@@ -163,6 +229,7 @@ const Reviews = () => {
                                 />
                             </label>
 
+                            {/* Submit */}
                             <button
                                 type="submit"
                                 className="mt-2 rounded-full bg-cream px-6 py-3 text-sm font-semibold text-burgundy transition-opacity hover:opacity-90 sm:col-span-2 sm:justify-self-start"
