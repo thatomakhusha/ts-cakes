@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ReviewStats from "./ReviewStats";
 
 const DashboardOverview = () => {
     return ( 
@@ -19,6 +20,7 @@ const DashboardOverview = () => {
                     View live website
                 </Link>
             </div>
+            <ReviewStats />
         </section>
      );
 }
