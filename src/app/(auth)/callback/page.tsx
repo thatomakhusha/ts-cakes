@@ -1,64 +1,69 @@
 "use client";
 
 import { Suspense, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 const CallbackContent = () => {
     const router = useRouter();
-    const searchParams = useSearchParams();
     const supabase = createClient();
 
     useEffect(() => {
+        let mounted = true;
+
         async function handleCallback() {
-            const tokenHash = searchParams.get("token_hash");
-            const type = searchParams.get("type");
+            const {
+                data: { session },
+            } = await supabase.auth.getSession();
 
-            if (tokenHash && type === "invite") {
-                const { error } = await supabase.auth.verifyOtp({
-                    token_hash: tokenHash,
-                    type: "invite",
-                });
-
-                if (error) {
-                    console.error(
-                        "Failed to verify invitation:",
-                        error,
-                    );
-
-                    router.replace("/login?error=auth-callback");
-                    return;
+            if (session) {
+                if (mounted) {
+                    router.replace("/set-password");
                 }
 
-                router.replace("/set-password");
                 return;
             }
 
-            const code = searchParams.get("code");
+            const {
+                data: { subscription },
+            } = supabase.auth.onAuthStateChange(
+                (event, session) => {
+                    if (
+                        mounted &&
+                        session &&
+                        (event === "SIGNED_IN" ||
+                            event === "INITIAL_SESSION")
+                    ) {
+                        router.replace("/set-password");
+                    }
+                },
+            );
 
-            if (code) {
-                const { error } =
-                    await supabase.auth.exchangeCodeForSession(code);
+            setTimeout(async () => {
+                const {
+                    data: { session },
+                } = await supabase.auth.getSession();
 
-                if (error) {
-                    console.error(
-                        "Failed to exchange auth code:",
-                        error,
-                    );
-
+                if (!session && mounted) {
                     router.replace("/login?error=auth-callback");
-                    return;
                 }
+            }, 5000);
 
-                router.replace("/set-password");
-                return;
-            }
-
-            router.replace("/login?error=auth-callback");
+            return () => {
+                subscription.unsubscribe();
+            };
         }
 
-        handleCallback();
-    }, [router, searchParams, supabase]);
+        const cleanupPromise = handleCallback();
+
+        return () => {
+            mounted = false;
+
+            cleanupPromise.then((cleanup) => {
+                cleanup?.();
+            });
+        };
+    }, [router, supabase]);
 
     return (
         <main className="grid min-h-screen place-items-center bg-burgundy-muted px-5 py-10">
