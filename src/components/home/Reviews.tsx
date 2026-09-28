@@ -101,41 +101,46 @@ const Reviews = () => {
 
                 {/* Approved reviews */}
                 <div className="mt-10 grid gap-5 md:grid-cols-3">
-                    {reviews.slice(0, 3).map((review) => (
-                        <article
-                            key={review.id}
-                            className="rounded-3xl border border-burgundy/12 bg-white/40 p-7"
-                        >
-                            {/* Rating */}
-                            <div
-                                className="text-lg tracking-wide text-burgundy"
-                                aria-label={`${review.rating} out of 5 stars`}
+                    {reviews.length === 0 ? (
+                        <p className="text-sm text-burgundy/50">
+                            No reviews yet.
+                        </p>
+                    ) : (
+                        reviews.slice(0, 3).map((review) => (
+                            <article
+                                key={review.id}
+                                className="rounded-3xl border border-burgundy/12 bg-white/40 p-7"
                             >
-                                {"★".repeat(review.rating)}
-                                <span className="text-burgundy/20">
-                                    {"★".repeat(5 - review.rating)}
-                                </span>
-                            </div>
+                                {/* Rating */}
+                                <div
+                                    className="text-lg tracking-wide text-burgundy"
+                                    aria-label={`${review.rating} out of 5 stars`}
+                                >
+                                    {"★".repeat(review.rating)}
+                                    <span className="text-burgundy/20">
+                                        {"★".repeat(5 - review.rating)}
+                                    </span>
+                                </div>
 
-                            {/* Review */}
-                            <p className="mt-5 font-display text-xl leading-relaxed text-burgundy">
-                                &ldquo;{review.review}&rdquo;
-                            </p>
-
-                            {/* Customer */}
-                            <div className="mt-6 border-t border-burgundy/10 pt-4">
-                                <p className="font-bold text-burgundy">
-                                    {review.name}
+                                {/* Review */}
+                                <p className="mt-5 font-display text-xl leading-relaxed text-burgundy">
+                                    &ldquo;{review.review}&rdquo;
                                 </p>
 
-                                <p className="mt-1 text-xs uppercase tracking-wider text-burgundy/50">
-                                    {review.category}
-                                </p>
-                            </div>
-                        </article>
-                    ))}
+                                {/* Customer */}
+                                <div className="mt-6 border-t border-burgundy/10 pt-4">
+                                    <p className="font-bold text-burgundy">
+                                        {review.name}
+                                    </p>
+
+                                    <p className="mt-1 text-xs uppercase tracking-wider text-burgundy/50">
+                                        {review.category}
+                                    </p>
+                                </div>
+                            </article>
+                        ))
+                    )}
                 </div>
-
 
                 {/* Review submission */}
                 <div className="mx-auto mt-14 max-w-2xl rounded-3xl bg-burgundy p-7 text-cream sm:p-10">

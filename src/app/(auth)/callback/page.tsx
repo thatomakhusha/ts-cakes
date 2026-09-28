@@ -11,23 +11,50 @@ const CallbackContent = () => {
 
     useEffect(() => {
         async function handleCallback() {
+            const tokenHash = searchParams.get("token_hash");
+            const type = searchParams.get("type");
+
+            if (tokenHash && type === "invite") {
+                const { error } = await supabase.auth.verifyOtp({
+                    token_hash: tokenHash,
+                    type: "invite",
+                });
+
+                if (error) {
+                    console.error(
+                        "Failed to verify invitation:",
+                        error,
+                    );
+
+                    router.replace("/login?error=auth-callback");
+                    return;
+                }
+
+                router.replace("/set-password");
+                return;
+            }
+
             const code = searchParams.get("code");
 
-            if (!code) {
-                router.replace("/login?error=auth-callback");
+            if (code) {
+                const { error } =
+                    await supabase.auth.exchangeCodeForSession(code);
+
+                if (error) {
+                    console.error(
+                        "Failed to exchange auth code:",
+                        error,
+                    );
+
+                    router.replace("/login?error=auth-callback");
+                    return;
+                }
+
+                router.replace("/set-password");
                 return;
             }
 
-            const { error } =
-                await supabase.auth.exchangeCodeForSession(code);
-
-            if (error) {
-                console.error("Failed to exchange auth code:", error);
-                router.replace("/login?error=auth-callback");
-                return;
-            }
-
-            router.replace("/set-password");
+            router.replace("/login?error=auth-callback");
         }
 
         handleCallback();
